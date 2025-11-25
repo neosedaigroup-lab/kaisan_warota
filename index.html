@@ -397,11 +397,6 @@
         text-shadow: 2px 2px 0 #fff, -1px -1px 0 #fff; 
     }
 
-    /* 
-     * 修正ポイント: 
-     * translateX(-50%) を全てのキーフレームに追加しました。
-     * これにより、座標指定(left)が「文字の中心」を指すようになり、左右のバランスが整います。
-     */
     @keyframes popUpWithRotateCentered {
         0% { transform: translateX(-50%) scale(0.5) translateY(0) rotate(0deg); opacity: 0; }
         30% { transform: translateX(-50%) scale(1.2) translateY(-20px) rotate(5deg); opacity: 1; }
@@ -456,7 +451,6 @@
     <!-- 覚醒パート -->
     <div class="hidden-content" id="jokeContent">
         
-        <!-- 句読点削除、改行調整 -->
         <div class="impact-reveal" id="impactArea">
             <span class="impact-sub" id="mainTitleText">ネオ世代は<br>解散しません</span>
         </div>
@@ -533,6 +527,7 @@
     let gayaInterval;
     let confettiInterval;
     let isEffectsRunning = false;
+    let hasAnimatedStats = false; // グラフアニメーション済みフラグ
 
     function revealTruth() {
         const btnContainer = document.getElementById('btnContainer');
@@ -580,18 +575,15 @@
             document.getElementById('globalCard').classList.add('visible');
             document.getElementById('recruitSection').classList.add('visible');
             document.getElementById('signatureBlock').classList.add('visible');
-
-            animateValue("hoursCount", 0, 6, 1500);
             
-            document.getElementById('barOld').style.width = '100%';
-            document.getElementById('barNew').style.width = '5%';
-            document.getElementById('barNew').classList.add('animate');
-            
+            // 監視を開始（ガヤ & グラフアニメーション用）
             observeImpactArea();
+            observeStats();
 
         }, 300);
     }
 
+    // 文字が見えている時だけ演出
     function observeImpactArea() {
         const target = document.getElementById('impactArea');
         const observer = new IntersectionObserver((entries) => {
@@ -603,7 +595,28 @@
                 }
             });
         }, { threshold: 0.1 });
+        observer.observe(target);
+    }
 
+    // グラフカードが見えたらアニメーション開始
+    function observeStats() {
+        const target = document.getElementById('statsCard');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                // 画面に入り、かつまだアニメーションしていない場合
+                if (entry.isIntersecting && !hasAnimatedStats) {
+                    hasAnimatedStats = true; // 一度だけ実行
+                    
+                    // カウントアップ開始
+                    animateValue("hoursCount", 0, 6, 1500);
+                    
+                    // グラフ伸ばす
+                    document.getElementById('barOld').style.width = '100%';
+                    document.getElementById('barNew').style.width = '5%';
+                    document.getElementById('barNew').classList.add('animate');
+                }
+            });
+        }, { threshold: 0.2 }); // 20%くらい見えたら開始
         observer.observe(target);
     }
 
@@ -669,7 +682,6 @@
         el.className = 'gaya-text';
         
         const size = Math.random() * 2 + 1.2 + 'rem';
-        // 5%〜95%の範囲に出現（見切れ防止）
         const x = Math.random() * 90 + 5 + '%'; 
         const y = Math.random() * 70 + 20 + '%';
         
@@ -680,7 +692,6 @@
         el.style.left = x;
         el.style.top = y;
         el.style.color = color;
-        // 修正: popUpWithRotateCentered を適用
         el.style.animation = `popUpWithRotateCentered 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards`;
 
         document.body.appendChild(el);
