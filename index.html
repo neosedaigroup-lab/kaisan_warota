@@ -4,25 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>今後の活動に関するご報告 | ネオ世代</title>
-<!-- フォント読み込み -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Noto+Sans+JP:wght@400;700;900&family=Noto+Serif+JP:wght@300;600&family=Shippori+Mincho&display=swap" rel="stylesheet">
 <style>
     /* =========================================
-       基本設定 & シリアスモード（初期状態：黒背景）
+       基本設定 & シリアスモード
        ========================================= */
     :root {
         --transition-speed: 0.8s;
-        --accent-color: #007aff; /* 洗練された青 */
-        --accent-pink: #ff0055;  /* 強調用ピンク */
+        --accent-color: #007aff; 
+        --accent-pink: #ff0055;  
     }
 
     body {
         margin: 0;
         padding: 0;
-        background-color: #000000; /* 真っ黒 */
-        color: #ffffff; /* 白文字 */
+        background-color: #000000;
+        color: #ffffff;
         font-family: 'Shippori Mincho', 'Noto Serif JP', serif;
         line-height: 2.2;
         transition: background-color 0.2s ease, color 0.2s ease;
@@ -39,7 +38,6 @@
         animation: fadeIn 2s ease forwards;
     }
 
-    /* ヘッダー */
     header {
         text-align: center;
         margin-bottom: 60px;
@@ -62,7 +60,6 @@
         font-family: 'Noto Serif JP', serif;
     }
 
-    /* 本文（シリアス） */
     .content-text p {
         margin-bottom: 2em;
         text-align: justify;
@@ -74,7 +71,6 @@
         display: inline-block;
     }
 
-    /* 運命のボタン */
     .btn-wrapper {
         display: flex;
         justify-content: center;
@@ -101,13 +97,11 @@
         transform: scale(1.05);
     }
 
-    /* 隠し要素 */
     .hidden-content {
         display: none;
         opacity: 0;
     }
 
-    /* フラッシュエフェクト用 */
     #flash-overlay {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
@@ -118,7 +112,7 @@
     }
 
     /* =========================================
-       覚醒モード（ネタばらし：白背景）
+       覚醒モード
        ========================================= */
     body.awakened {
         background-color: #ffffff;
@@ -130,7 +124,6 @@
         border-bottom: none;
     }
 
-    /* アニメーション定義 */
     @keyframes stampIn {
         0% { transform: scale(3); opacity: 0; }
         50% { transform: scale(0.9); opacity: 1; }
@@ -144,7 +137,6 @@
         100% { transform: scale(1); }
     }
 
-    /* 衝撃のタイトルエリア */
     .impact-reveal {
         text-align: center;
         margin: 100px 0;
@@ -170,7 +162,6 @@
         animation: stampIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
 
-    /* カードデザイン */
     .clean-card {
         background: #f8f9fa;
         border: 1px solid #eee;
@@ -188,7 +179,6 @@
         transform: translateY(0);
     }
 
-    /* 6時間の強調 */
     .highlight-stat {
         display: flex;
         flex-direction: column;
@@ -270,7 +260,8 @@
     .bar {
         height: 14px;
         border-radius: 7px;
-        transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+        /* グイーンと伸びる速度を2.5秒に設定 */
+        transition: width 2.5s cubic-bezier(0.22, 1, 0.36, 1);
         width: 0;
     }
 
@@ -291,7 +282,6 @@
     
     .bar.new.animate::after { opacity: 1; }
 
-    /* 多言語機能の強調 */
     .global-tech-box {
         display: flex;
         flex-wrap: wrap;
@@ -319,7 +309,6 @@
         animation-delay: 1s;
     }
 
-    /* メンバー募集セクション */
     .recruit-section {
         background: #222;
         color: #fff;
@@ -347,7 +336,6 @@
         padding-bottom: 5px;
     }
 
-    /* リーダー署名 */
     .signature-block {
         text-align: right;
         margin-top: 80px;
@@ -392,9 +380,17 @@
         z-index: 100;
         pointer-events: none;
         white-space: nowrap;
-        opacity: 0;
+        opacity: 0; /* 最初は透明 */
         color: #333;
         text-shadow: 2px 2px 0 #fff, -1px -1px 0 #fff; 
+        
+        /* フェードアウト用のトランジション */
+        transition: opacity 0.5s ease;
+    }
+    
+    /* ガヤが消えるときのクラス */
+    .gaya-text.fade-out {
+        opacity: 0 !important;
     }
 
     @keyframes popUpWithRotateCentered {
@@ -412,6 +408,13 @@
         z-index: 50;
         pointer-events: none;
         animation: fall linear forwards;
+        
+        /* フェードアウト用 */
+        transition: opacity 0.5s ease;
+    }
+    
+    .confetti.fade-out {
+        opacity: 0 !important;
     }
 
     @keyframes fall {
@@ -435,7 +438,6 @@
         <div class="date">2025年11月26日</div>
     </header>
 
-    <!-- シリアスパート -->
     <div id="intro-text" class="content-text">
         <p>いつもネオ世代を応援していただき、誠にありがとうございます。</p>
         <p>先日のメンバー2名の脱退以降、グループは私ドット1人という状況になりました。これまで3人で行っていた活動を一人三役で維持することは、ゆっくり実況でなければ常識的に考えれば困難であり、私自身、リーダーとして今後の活動における物理的な限界と、重くのしかかる<span class="cockroach-text" title="G">G</span>と責任を感じておりました。</p>
@@ -443,12 +445,10 @@
         <p>そして本日、一つの決断に至りましたので、ここにご報告させていただきます。</p>
     </div>
 
-    <!-- 運命のボタン -->
     <div class="btn-wrapper" id="btnContainer">
         <button class="reveal-btn" onclick="revealTruth()">決断を読む</button>
     </div>
 
-    <!-- 覚醒パート -->
     <div class="hidden-content" id="jokeContent">
         
         <div class="impact-reveal" id="impactArea">
@@ -459,7 +459,6 @@
             <p>どれだけメンバーが減ろうと、私一人になろうと、この看板を下ろすことは絶対にありません。むしろ、ここからが本当の始まりであり、勝負だと思っています。</p>
             <p>なぜなら、現在の制作体制は、もはや従来の手法とは一線を画す<strong style="color:var(--accent-color);">「至高の領域（State of Art）」</strong>に到達していると自負しているからです。</p>
 
-            <!-- 6時間自慢のカード -->
             <div class="clean-card" id="statsCard">
                 <div style="text-align:center; font-weight:bold; color:#007aff; margin-bottom:10px; letter-spacing: 0.1em;">PERFORMANCE REPORT</div>
                 <h3 style="text-align:center; margin:0 0 20px 0; font-size:1.5rem;">圧倒的な速度革命。</h3>
@@ -491,7 +490,6 @@
 
             <p>この速度は限界値ではありません。編集フローにはまだ改善の余地が残されており、作業時間は今後さらに短縮されていく予定です。</p>
 
-            <!-- 多言語化カード -->
             <div class="clean-card" id="globalCard" style="border-top: 4px solid var(--accent-pink);">
                 <h3 style="text-align:center; margin:0 0 20px 0; font-size:1.5rem;">世界へ届ける技術。</h3>
                 <p>今回の動画はあまりに日本的な内容のため見送りましたが、当チャンネルには以下の技術基盤がすでに実装されています。</p>
@@ -505,7 +503,6 @@
                 <p>皆様に見せていない秘蔵の「技術」を解放し、世の中を驚かせるまでは、絶対に辞めるわけにはいかないのです。</p>
             </div>
 
-            <!-- メンバー募集 -->
             <div class="recruit-section" id="recruitSection">
                 <div class="recruit-title">新メンバー募集中</div>
                 <p>周りの環境がどう変化しようとも、私は戦い続けます。<br>どんなに辛いことがあっても、必ず有名になります。</p>
@@ -527,7 +524,7 @@
     let gayaInterval;
     let confettiInterval;
     let isEffectsRunning = false;
-    let hasAnimatedStats = false; // グラフアニメーション済みフラグ
+    let hasAnimatedStats = false; 
 
     function revealTruth() {
         const btnContainer = document.getElementById('btnContainer');
@@ -576,7 +573,6 @@
             document.getElementById('recruitSection').classList.add('visible');
             document.getElementById('signatureBlock').classList.add('visible');
             
-            // 監視を開始（ガヤ & グラフアニメーション用）
             observeImpactArea();
             observeStats();
 
@@ -598,17 +594,17 @@
         observer.observe(target);
     }
 
-    // グラフカードが見えたらアニメーション開始
+    // グラフカードの中央が表示されたらアニメーション開始
     function observeStats() {
         const target = document.getElementById('statsCard');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                // 画面に入り、かつまだアニメーションしていない場合
+                // threshold: 0.5 = 要素の50%が見えたら発火（=ほぼ中央）
                 if (entry.isIntersecting && !hasAnimatedStats) {
-                    hasAnimatedStats = true; // 一度だけ実行
+                    hasAnimatedStats = true; 
                     
                     // カウントアップ開始
-                    animateValue("hoursCount", 0, 6, 1500);
+                    animateValue("hoursCount", 0, 6, 1200);
                     
                     // グラフ伸ばす
                     document.getElementById('barOld').style.width = '100%';
@@ -616,13 +612,18 @@
                     document.getElementById('barNew').classList.add('animate');
                 }
             });
-        }, { threshold: 0.2 }); // 20%くらい見えたら開始
+        }, { threshold: 0.5 });
         observer.observe(target);
     }
 
     function startEffects() {
         if (isEffectsRunning) return;
         isEffectsRunning = true;
+        
+        // フェードアウトクラスを削除して表示
+        document.querySelectorAll('.gaya-text').forEach(el => el.classList.remove('fade-out'));
+        document.querySelectorAll('.confetti').forEach(el => el.classList.remove('fade-out'));
+
         startGaya();
         startConfetti();
     }
@@ -634,32 +635,33 @@
         clearInterval(gayaInterval);
         clearInterval(confettiInterval);
         
-        document.querySelectorAll('.gaya-text').forEach(el => el.remove());
-        document.querySelectorAll('.confetti').forEach(el => el.remove());
+        // フェードアウトクラスを追加
+        document.querySelectorAll('.gaya-text').forEach(el => el.classList.add('fade-out'));
+        document.querySelectorAll('.confetti').forEach(el => el.classList.add('fade-out'));
+        
+        // アニメーション完了後にDOM削除
+        setTimeout(() => {
+            document.querySelectorAll('.gaya-text.fade-out').forEach(el => el.remove());
+            document.querySelectorAll('.confetti.fade-out').forEach(el => el.remove());
+        }, 500); // 0.5秒後に削除
     }
 
+    // 数字をステップアップさせる演出
     function animateValue(id, start, end, duration) {
         let obj = document.getElementById(id);
-        let range = end - start;
-        let minTimer = 50;
-        let stepTime = Math.abs(Math.floor(duration / range));
-        stepTime = Math.max(stepTime, minTimer);
-        let startTime = new Date().getTime();
-        let endTime = startTime + duration;
-        let timer;
-  
-        function run() {
-            let now = new Date().getTime();
-            let remaining = Math.max((endTime - now) / duration, 0);
-            let value = Math.round(end - (remaining * range));
-            obj.innerHTML = value;
-            if (value == end) {
+        
+        // ステップを大きくして「段階的に上がる感」を出す
+        // 0 -> 1 -> 2 ... と上がる時間を調整
+        let current = start;
+        let stepTime = duration / (end - start); 
+        
+        let timer = setInterval(() => {
+            current += 1;
+            obj.innerHTML = current;
+            if (current >= end) {
                 clearInterval(timer);
             }
-        }
-        
-        timer = setInterval(run, stepTime);
-        run();
+        }, stepTime);
     }
 
     const gayaWords = [
@@ -682,6 +684,9 @@
         el.className = 'gaya-text';
         
         const size = Math.random() * 2 + 1.2 + 'rem';
+        
+        // 修正: 画面端(5%以内)には出さないよう調整
+        // 左端(5%)〜右端(95%)の範囲
         const x = Math.random() * 90 + 5 + '%'; 
         const y = Math.random() * 70 + 20 + '%';
         
