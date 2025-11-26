@@ -162,6 +162,26 @@
         animation: stampIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
 
+    /* 動画埋め込み用のレスポンシブコンテナ */
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 */
+        height: 0;
+        overflow: hidden;
+        margin: 30px 0;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        background: #000;
+    }
+
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
     .clean-card {
         background: #f8f9fa;
         border: 1px solid #eee;
@@ -260,16 +280,29 @@
     .bar {
         height: 14px;
         border-radius: 7px;
-        /* グイーンと伸びる速度を2.5秒に設定 */
         transition: width 2.5s cubic-bezier(0.22, 1, 0.36, 1);
         width: 0;
     }
 
-    .bar.old { background: #ddd; }
+    .bar.old { background: #ddd; position: relative; }
+    
+    /* 古いグラフにも時間を表示 */
+    .bar.old::after {
+        content: '30時間';
+        position: absolute;
+        right: 10px;
+        top: -20px;
+        color: #999;
+        font-size: 0.8rem;
+        font-weight: bold;
+        opacity: 0;
+        transition: opacity 0.5s 1s;
+    }
+    
     .bar.new { background: var(--accent-color); position: relative; }
 
     .bar.new::after {
-        content: '6時間';
+        content: '5時間';
         position: absolute;
         left: 10px;
         top: -25px;
@@ -280,6 +313,8 @@
         transition: opacity 0.5s 1s;
     }
     
+    /* アニメーション用クラス */
+    .bar.old.animate::after,
     .bar.new.animate::after { opacity: 1; }
 
     .global-tech-box {
@@ -464,7 +499,13 @@
                 <h3 style="text-align:center; margin:0 0 20px 0; font-size:1.5rem;">爆速イノベーション（High Speed Innovation）！</h3>
 
                 <p>先日ドロップ（Release）した30分越えの長尺動画『閉店後の銭湯』。ご覧いただけたでしょうか！？</p>
-                <p>あのアウトプット（Output）にかかった工数（Man-hour）、すなわち私の貴重なリソース（Resource）消費量は以下の通りです！！！</p>
+                
+                <!-- 動画埋め込みエリア -->
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/dl_mgQF_1wQ?si=sh4wMX5DQQQFqqPs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+
+                <p>カット、テロップ、アニメーション、BGM、効果音……これら全ての工程に費やした工数（Man-hour）、すなわち私の貴重なリソース（Resource）消費量は以下の通りです！！！</p>
 
                 <div class="highlight-stat">
                     <span class="stat-label">実質クリエイティブ・タイム（編集時間）</span>
@@ -474,7 +515,7 @@
                     </div>
                 </div>
 
-                <p>トラブルシューティング（Trouble Shooting）を含めてこの数値！かつての私とは違う...！これはまさに<strong>『生産性の特異点（Singularity）』</strong>への到達です！！！</p>
+                <p>以前の私であれば、同じクオリティを作るのに<strong>30時間</strong>は費やしていました。しかし見てください、この劇的な短縮を！これはまさに<strong>『生産性の特異点（Singularity）』</strong>への到達です！！！</p>
 
                 <div class="comparison">
                     <div class="bar-group">
@@ -500,8 +541,8 @@
                 </div>
 
                 <p>「圧倒的効率（Efficiency）」と「言語の壁崩壊（Borderless）」。この二つのアセット（Asset）がある限り、私の進撃（Attack）は止まらない！！！</p>
-                <p>そもそも私がネオ世代をローンチ（Launch）した真の理由...それは、まだ世界が知らない<strong>『極秘テクノロジー（Top Secret Tech）』</strong>を世に放つためです！！！</p>
-                <p>その革命（Revolution）を世界が見届けるその日まで、私の辞書に「解散（Dissolution）」の文字はありません！！！</p>
+                <p>そもそも私がネオ世代を立ち上げた理由...それは、まだ世界が知らない<strong>「極秘技術」</strong>を世に放つためです！！！</p>
+                <p>その革命を世界が見届けるその日まで、私は絶対に解散しません！！！</p>
             </div>
 
             <div class="recruit-section" id="recruitSection">
@@ -605,11 +646,14 @@
                     hasAnimatedStats = true; 
                     
                     // カウントアップ開始
-                    animateValue("hoursCount", 0, 6, 1200);
+                    animateValue("hoursCount", 0, 5, 1200);
                     
                     // グラフ伸ばす
+                    // 30時間を100%とし、5時間はその16.6%なので約16%に設定
                     document.getElementById('barOld').style.width = '100%';
-                    document.getElementById('barNew').style.width = '5%';
+                    document.getElementById('barOld').classList.add('animate');
+
+                    document.getElementById('barNew').style.width = '16%';
                     document.getElementById('barNew').classList.add('animate');
                 }
             });
